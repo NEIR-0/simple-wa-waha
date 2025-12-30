@@ -29,7 +29,9 @@ EOF
 2. **Pastikan Docker Desktop berjalan**
 
 2.1 **Jalankan comand in untuk generete .env**
+```
 docker compose run --no-deps -v "$(pwd)":/app/env waha init-waha /app/env
+```
 
 3. **Jalankan WAHA dengan Docker Compose:**
 
@@ -194,6 +196,39 @@ after that click "create & start"
 6. swagger need apikey as authorize env.WAHA_API_KEY
 7. now we can play swagger or you can open whats app chat via dashborad Sessions -> Status -> chat UI
 NOTE: swagger send text:
+```
+curl -X 'POST' \
+  'http://localhost:3000/api/sendText' \
+  -H 'accept: application/json' \
+  -H 'X-Api-Key: 47c211eb0bed460582a98945adb75d99' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "chatId": "6211111111111@c.us",
+  "text": "Hi there!",
+  "session": "default"
+}'
+
+chatId: country_code(without "+") + number
+example: `${62}${11111111111}`
+
+session: its your dashboard session name
+```
+
+## SUM
+1. create docker-compose.yml
+2. docker compose run --no-deps -v "$(pwd)":/app/env waha init-waha /app/env
+3. docker compose up -d && docker compose ps && docker compose logs -f
+4. go here: http://localhost:3000/dashboard, login use as env
+5. create worker:
+```
+Name: WAHA
+API URL: http://localhost:3000
+API Key (NEEDED): env.WAHA_API_KEY
+```
+6. create sessions (can do dashboard or swagger)
+7. all "working". now scan qr use whatsapp on terminal who run: "docker compose logs -f"
+8. we can play with swagger. go here: http://localhost:3000
+9. go "📤 Chatting Chatting methods" sections and used "sendText" or api/sendText
 ```
 curl -X 'POST' \
   'http://localhost:3000/api/sendText' \
