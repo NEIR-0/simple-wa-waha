@@ -1,0 +1,26 @@
+services:
+  waha:
+    # Untuk Apple Silicon (M1/M2), gunakan image ARM
+    # Docker Desktop akan otomatis memilih image yang sesuai, tapi lebih baik eksplisit
+    image: devlikeapro/waha:arm
+    platform: linux/arm64
+    container_name: waha
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - WAHA_BASE_URL=http://localhost:3000
+      - WAHA_API_KEY=${WAHA_API_KEY:-your-secret-api-key-change-me}
+      - WAHA_DASHBOARD_USERNAME=${WAHA_DASHBOARD_USERNAME:-admin}
+      - WAHA_DASHBOARD_PASSWORD=${WAHA_DASHBOARD_PASSWORD:-admin}
+      - WHATSAPP_SWAGGER_USERNAME=${WHATSAPP_SWAGGER_USERNAME:-admin}
+      - WHATSAPP_SWAGGER_PASSWORD=${WHATSAPP_SWAGGER_PASSWORD:-admin}
+      - WAHA_ENGINE=${WAHA_ENGINE:-WEBJS}
+    volumes:
+      - ./sessions:/app/.sessions
+    networks:
+      - waha-network
+
+networks:
+  waha-network:
+    driver: bridge
